@@ -4,8 +4,14 @@ import { Box, Button, IconButton, TextField } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import UpdateTask from './UpdateTask';
+import { useSelector, useDispatch } from 'react-redux';
+
+import { setSelectedTask } from './slices/tasksSlice';
+
+
 
 const TaskList = () => {
+
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -15,6 +21,21 @@ const TaskList = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
+
+    const { tasksList } = useSelector(state => state.tasks);
+
+    const dispatch = useDispatch();
+
+
+
+    const updateTask = (task) => {
+        handleClickOpen();
+        dispatch(setSelectedTask(task))
+        console.log("You have selected this task", task);
+    }
+
+
 
     return (
         <div className="data mt-10">
@@ -28,19 +49,25 @@ const TaskList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className="border border-gray-300 px-4 py-4">1</td>
-                        <td className="border border-gray-300 px-4 py-4">Task One</td>
-                        <td className="border border-gray-300 px-4 py-4">Description One</td>
-                        <td className='border border-gray-300 px-4'>
-                            <IconButton onClick={handleClickOpen}>
-                                <EditIcon className='cursor-pointer' size="medium" sx={{ fontSize: 23, color: "#1976d2" }} />
-                            </IconButton>
-                            <IconButton>
-                                <DeleteForeverIcon className='cursor-pointer' sx={{ fontSize: 23, color: "#1976d2" }} />
-                            </IconButton>
-                        </td>
-                    </tr>
+                    {
+                        tasksList && tasksList.map((task, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td className="border border-gray-300 px-4 py-4">{index + 1}</td>
+                                    <td className="border border-gray-300 px-4 py-4">{task.title}</td>
+                                    <td className="border border-gray-300 px-4 py-4">{task.description}</td>
+                                    <td className='border border-gray-300 px-4'>
+                                        <IconButton onClick={updateTask.bind(this, task)}>
+                                            <EditIcon className='cursor-pointer' size="medium" sx={{ fontSize: 23, color: "#1976d2" }} />
+                                        </IconButton>
+                                        <IconButton>
+                                            <DeleteForeverIcon className='cursor-pointer' sx={{ fontSize: 23, color: "#1976d2" }} />
+                                        </IconButton>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
                 </tbody>
             </table>
             {open && <UpdateTask handleClickOpen={handleClickOpen} handleClose={handleClose} />}
@@ -48,4 +75,4 @@ const TaskList = () => {
     )
 }
 
-export default TaskList
+export default TaskList;

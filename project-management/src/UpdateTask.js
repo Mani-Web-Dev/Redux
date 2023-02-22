@@ -6,9 +6,12 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-export default function UpdateTask({ handleClickOpen, handleClose }) {
+export default function UpdateTask({ handleClickOpen, handleClose, selTask }) {
     return (
         <div>
+            {
+                console.log(selTask)
+            }
             <Dialog
                 open={handleClickOpen}
                 onClose={handleClose}

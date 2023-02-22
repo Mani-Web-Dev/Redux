@@ -14,6 +14,7 @@ const TaskList = () => {
 
     const [open, setOpen] = useState(false);
 
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -27,14 +28,11 @@ const TaskList = () => {
 
     const dispatch = useDispatch();
 
-
-
     const updateTask = (task) => {
         handleClickOpen();
-        dispatch(setSelectedTask(task))
-        console.log("You have selected this task", task);
+        dispatch(setSelectedTask(task));
+        console.log("The selected task :", JSON.stringify(task));
     }
-
 
 
     return (
@@ -70,7 +68,9 @@ const TaskList = () => {
                     }
                 </tbody>
             </table>
-            {open && <UpdateTask handleClickOpen={handleClickOpen} handleClose={handleClose} />}
+            {open && <UpdateTask
+                handleClickOpen={handleClickOpen}
+                handleClose={handleClose} />}
         </div>
     )
 }
